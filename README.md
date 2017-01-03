@@ -4,6 +4,9 @@
 
 **Example application for [bingo](https://github.com/sagikazarmark/bingo/).**
 
+![screenshot](resources/screenshot.png)
+
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
