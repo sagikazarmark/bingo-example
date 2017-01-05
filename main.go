@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/sagikazarmark/bingo"
 	"github.com/julienschmidt/httprouter"
+	"github.com/sagikazarmark/bingo"
 	flag "github.com/spf13/pflag"
 )
 
@@ -32,7 +32,7 @@ func main() {
 func AddEndpoints(collector bingo.EndpointCollector, pathPrefix string) {
 	endpoint, _ := bingo.NewEndpoint(
 		"GET",
-		pathPrefix + "/lorem",
+		pathPrefix+"/lorem",
 		func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			fmt.Fprintf(w, "Lorem ipsum dolor")
 		},
@@ -42,7 +42,7 @@ func AddEndpoints(collector bingo.EndpointCollector, pathPrefix string) {
 
 	endpoint, _ = bingo.NewEndpoint(
 		"GET",
-		pathPrefix + "/number/:num",
+		pathPrefix+"/number/:num",
 		func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			fmt.Fprintf(w, "You wrote: %s", p.ByName("num"))
 		},
@@ -53,7 +53,7 @@ func AddEndpoints(collector bingo.EndpointCollector, pathPrefix string) {
 
 	endpoint, _ = bingo.NewEndpoint(
 		"GET",
-		pathPrefix + "/query?key=:value",
+		pathPrefix+"/query?key=:value",
 		func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			fmt.Fprintf(w, "You wrote: %s", r.URL.RawQuery)
 		},
@@ -64,7 +64,7 @@ func AddEndpoints(collector bingo.EndpointCollector, pathPrefix string) {
 
 	endpoint, _ = bingo.NewEndpoint(
 		"POST",
-		pathPrefix + "/post",
+		pathPrefix+"/post",
 		func(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			fmt.Fprintf(w, "You posted")
 		},
