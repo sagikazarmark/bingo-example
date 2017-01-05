@@ -10,8 +10,12 @@ go:
     - 1.7
     - tip
 
-before_deploy:
-    - go build -o "bingo_example_$TRAVIS_OS_NAME"
+before_install:
+    - mkdir -p $GOPATH/bin
+    - curl https://glide.sh/get | sh
+install: make install
+script: make VERBOSE=true test
+before_deploy: make BINARY="bingo_example_$TRAVIS_OS_NAME" build
 
 deploy:
     provider: releases
