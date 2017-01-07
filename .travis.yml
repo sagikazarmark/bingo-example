@@ -10,18 +10,28 @@ go:
     - 1.7
     - tip
 
+env:
+    matrix:
+        - ARCH=386
+        - ARCH=amd64
+
 before_install:
     - mkdir -p $HOME/bin
     - curl -L https://git.io/vMZjG | sh -s $HOME/bin
 install: make install
-script: make VERBOSE=true test
-before_deploy: make BINARY="bingo_example_$TRAVIS_OS_NAME" build
+before_script:
+    # Necessary because matrix env var doesn't work. See https://travis-ci.org/sagikazarmark/bingo-example/jobs/189758517
+    - export GOARCH=$ARCH
+    - export BINARY_NAME=`basename $TRAVIS_REPO_SLUG`_`go env GOOS`_`go env GOARCH`
+script:
+    - make VERBOSE=true test
+    - make BINARY=$BINARY_NAME build
 
 deploy:
     provider: releases
     api_key:
         secure: mb4K26B3F+FrRDDHWAqBkOXwG4ljhICCtnNFj3Pn4FyzUcgVE3OavVANmxYatUxs2uMnQK0DFbP5bEkIOWMl9+ZNzIa2xE+/qarXgrYMMU/a/dgkCYcfP9fbQHCM4fag89i1Ai/wxC7TnG08WzZoZ7TQ5WTdBOBbpAwNzbxKDt1SRFTYhHqhtsBWg7Mpp1fNJE+M/XilhJBYK60A3GJuxf8wyHAYOSzHIhcbue/e32KodRJPkmbl8zqKeTZEVUTXqIrSZi1NKbNUQ9+FvROwsjWycNhgRyvpWlNnFNvWg9f+PYCN9ryBf10xiSplgO7t9JcKzEDES8v4M791Gw1L3SW1/est3qLtE3tTbMAoKmu0teZ2FzIIE+jyjvYbk9clJt/8IGrfkUPktE+VvJTf+1F5yS8dg1aBiHMFpim27CHURJLoR+bQpHEsTVRHom58GENOphxyxZh3USAWHa2vJFF8IQF+Q21dOoTPuBwxHHgB9UotJ4jeyzn2wUF/6/bd53+iFvhe9Sz2VnN8cS6oQ1113J57yVc7VGdpebCCptn2gxtzkk1N3Is5aeC6zTUgy2HM414e6wx+CguRrGJ2FZp+dszUk1Ys24wh+f8dZvIffCru3CjsrcuNM+ioZvxxRFii968Z1RAHXqJ4zHg0DRKt6PtCZDPM8KZfLxCIVlY=
-    file: bingo_example_$TRAVIS_OS_NAME
+    file: $BINARY_NAME
     skip_cleanup: true
     on:
         repo: sagikazarmark/bingo-example
